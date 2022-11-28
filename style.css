@@ -1,0 +1,33 @@
+body{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.title{
+    color: white;
+    font-size: 2em;
+
+}
+.square{
+    min-height: 10vh;
+    min-width: 10vw;
+    background-color: white;      
+}
+
+
+
+
+
+.container{
+    
+    background-color: black;
+    margin-top: 25vh;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:0.6em;
+    width: clamp(10em,20em,80vw);
+    height: clamp(10em,20em,80vh);
+
+}
