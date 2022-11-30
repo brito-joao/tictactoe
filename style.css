@@ -13,7 +13,10 @@ body{
 .square{
     min-height: 10vh;
     min-width: 10vw;
-    background-color: white;      
+    background-color: white;   
+    display: flex;
+    align-items: center;
+    justify-content: center;   
 }
 
 
@@ -30,4 +33,14 @@ body{
     width: clamp(10em,20em,80vw);
     height: clamp(10em,20em,80vh);
 
+}
+
+.square p{
+    font-size: 4rem;
+}
+.square .even{
+    color:red;
+}
+.end{
+    color:red;
 }
