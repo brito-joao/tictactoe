@@ -23,10 +23,10 @@ function Game(){
     this.exit=false;
 }
 
-Game.prototype.coorCheck=function(p_coor){
+Game.prototype.coordinateCheck=function(point_cordinat){
     var pressed=false;
     game1.pressed.forEach((item)=>{
-        if(item==p_coor){
+        if(item==point_cordinat){
             pressed=true;
         }
     });
@@ -42,18 +42,18 @@ Game.prototype.drawCheck=function(){
     }
     
 }
-Game.prototype.coor2List=function(p_coor,player){
+Game.prototype.coordinate2List=function(point_coordinat,player){
     
     if(player==1){
-        player1.game[p_coor[0]][p_coor[1]]=1;
+        player1.game[point_coordinat[0]][point_coordinat[1]]=1;
 
     }else{
-        player2.game[p_coor[0]][p_coor[1]]=1;
+        player2.game[point_coordinat[0]][point_coordinat[1]]=1;
     }
     
     
     
-    console.log("Look at this thing:",player1.game);
+    
 
 }
 
@@ -73,7 +73,7 @@ function arrayCompare1(array){
         }
     }
 }
-function horizCompare(array){
+function horizontalCompare(array){
     if(array[0][0]+array[0][1]+array[0][2]==3 || array[1][0]+array[1][1]+array[1][2]==3 || array[2][0]+array[2][1]+array[2][2]==3){
         return true;
     }else{
@@ -81,7 +81,7 @@ function horizCompare(array){
         
     }
 }
-function vertCompare(array){
+function verticalCompare(array){
     if(array[0][0]+array[1][0]+array[2][0]==3 || array[0][1]+array[1][1]+array[2][1]==3 || array[0][2]+array[1][2]+array[2][2]==3){
         return true;
     }else{
@@ -92,35 +92,35 @@ function vertCompare(array){
 Game.prototype.diagonalCheck=function(player){
     
     if(player==1){
-        console.log(player1.game,"player diagonal check");
+        
         if(arrayCompare1(player1.game)==true){
             this.end=true;
             info.innerText="Game Over";
-            console.log("JLJLJLKHKJHLKJHLKJHLHGG");
+            
         }
     }else{
         if(arrayCompare1(player2.game)==true){
             this.end=true;
             info.innerText="Game Over";
-            console.log("JLJLJLKHKJHLKJHLKJHLHGG");
+            
         }
     }
 }
 
-Game.prototype.hor_vertCheck=function(player){
+Game.prototype.horizontal_verticalCheck=function(player){
     if(player==1){
-        if(horizCompare(player1.game)==true || vertCompare(player1.game)==true){
+        if(horizontalCompare(player1.game)==true || verticalCompare(player1.game)==true){
             this.end=true;
             info.innerText="Game Over";
         }
     }else{
-        if(horizCompare(player2.game)==true || vertCompare(player2.game)==true){
+        if(horizontalCompare(player2.game)==true || verticalCompare(player2.game)==true){
             this.end=true;
             info.innerText="Game Over";
         }
     }
 }
-Game.prototype.divGen=function(){
+Game.prototype.divCreation=function(){
     for(var i=0;i<9;i++){
 
 
@@ -134,44 +134,47 @@ Game.prototype.divGen=function(){
 
             
             
-            console.log(point_coordinate)
+            
 
             //to check if was pressed 
-            if(game1.coorCheck(point_coordinate)==true){
-                console.log("was already pressed");
+            if(game1.coordinateCheck(point_coordinate)==true){
+                
             }else{
 
                 game1.turn+=1;
                 if(game1.turn%2){
-                    game1.coor2List(point_coordinate,1);
+                    game1.coordinate2List(point_coordinate,1);
                     game1.diagonalCheck(1);
-                    game1.hor_vertCheck(1);
+                    game1.horizontal_verticalCheck(1);
                     div.innerHTML="<p class='even'>x</p>";
                 }else{
-                    game1.coor2List(point_coordinate,2);
+                    game1.coordinate2List(point_coordinate,2);
                     game1.diagonalCheck(2);
-                    game1.hor_vertCheck(2);
+                    game1.horizontal_verticalCheck(2);
                     div.innerHTML="<p >o</p>";
                 }
                 game1.pressed.push(point_coordinate);
             }
 
             if(game1.drawCheck()==true){
-                container.style="background-color:red";
+                //container.style="background-color:red";
                 info.innerText="Draw!!";
             }
 
             if(game1.exit==true){
                 //edit all of the other divs and clear all of the arrays, player 1 and player 2;
-                
+                restartGame();
+                container.style="background-color:black";
                 game1.exit=false;
+                game1.end=false;
             }
 
             if(game1.end==true){
                 game1.exit=true;
                 container.style="background-color:red";
+                
             }
-            console.log(game1.pressed);
+            
         });
         container.appendChild(div);
         
@@ -180,7 +183,7 @@ Game.prototype.divGen=function(){
 
 const game1=new Game();
 
-game1.divGen();
+game1.divCreation();
 
 
 function Player(){
@@ -195,4 +198,20 @@ function Player(){
 let player1=new Player();
 let player2=new Player();
 
-
+function restartGame(){
+    const divs=document.querySelectorAll(".square");
+    divs.forEach((item)=>{
+        item.innerHTML="<p>⠀</p>";
+    })
+    player1.game=[
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ];
+    player2.game=[
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ];
+    game1.pressed=[];
+}
